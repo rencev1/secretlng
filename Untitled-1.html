@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Digital Letter</title>
+  <!-- Import a cool modern font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: #111;
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 10px; /* small padding for phones */
+    }
+
+    .container, #letterPage {
+      border-radius: 20px;
+      padding: 20px;
+      max-width: 600px;
+      width: 100%; /* full width on phones */
+      background: #fff;
+      color: #222;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.25),
+                  0 12px 40px rgba(0,0,0,0.15);
+      animation: fadeIn 1s ease forwards;
+    }
+
+    .container {
+      text-align: center;
+    }
+
+    #letterPage {
+      display: none;
+      line-height: 1.6;
+      font-size: 15px; /* slightly smaller for phones */
+    }
+
+    h1 {
+      font-size: 20px; /* smaller heading for phones */
+      margin-bottom: 12px;
+      color: #111;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 6px;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+    }
+
+    input {
+      display: block;
+      margin: 12px auto;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      font-size: 14px;
+      width: 90%; /* wider input on phones */
+      text-align: center;
+    }
+
+    button {
+      display: block;
+      margin: 10px auto 0;
+      padding: 10px 20px;
+      background: linear-gradient(135deg, #222, #444);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+    button:hover {
+      background: linear-gradient(135deg, #444, #666);
+      transform: translateY(-2px);
+    }
+
+    #error {
+      color: #b22222;
+      font-weight: bold;
+      margin-top: 8px;
+      text-align: center;
+      display: none;
+      font-size: 13px;
+    }
+
+    .signature {
+      margin-top: 15px;
+      text-align: right;
+      font-style: italic;
+      color: #555;
+      font-size: 13px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .word {
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      display: inline-block;
+      margin-right: 4px;
+    }
+    .word.show {
+      opacity: 1;
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 480px) {
+      .container, #letterPage {
+        padding: 15px;
+      }
+      h1 {
+        font-size: 18px;
+      }
+      #letterPage {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Page 1: Password -->
+  <div class="container" id="passwordPage">
+    <h1>Enter Password</h1>
+    <input type="text" id="password" placeholder="Hint: what word you remember of me">
+    <button onclick="unlockLetter()">CLICK</button>
+    <div id="error">Invalid password. Try again.</div>
+  </div>
+
+  <!-- Page 2: Letter -->
+  <div id="letterPage">
+    <h1> </h1>
+    <p id="animatedText"></p>
+    <div class="signature">— From Someone Who Named Rence</div>
+    <audio id="bgMusic" src="Coldplay - Sparks - Instrumental (NO VOICE!).mp3" preload="auto"></audio>
+  </div>
+
+  <script>
+    function unlockLetter() {
+      const input = document.getElementById("password").value.trim().toLowerCase();
+      const validPasswords = ["lisudsad", "lisudpud", "lisud sad", "lisud pud"];
+      const passwordPage = document.getElementById("passwordPage");
+      const letterPage = document.getElementById("letterPage");
+      const error = document.getElementById("error");
+
+      if (validPasswords.includes(input)) {
+        error.style.display = "none";
+        passwordPage.style.display = "none";
+        letterPage.style.display = "block";
+        animateText();
+        playMusic();
+      } else {
+        error.style.display = "block";
+      }
+    }
+
+    function animateText() {
+      const text = `hi sana na open moto i just want to make it clear hindi kita pinapalayo sa friends mo gusto ko lang ng attention mo assurance mo pwede pa naman natin to maayos e mahal na mahal kita bao
+     hindi lang tayo nag ka intindihan, binasa ko yung letter mo sakin bao all those word you said loving me isnt just saying iloveyou its all about understanding me
+     and choosing me even the day is not perfect i want to fix us baobao ang hirap ng wala ka reach me out.`;
+
+      const words = text.split(" ");
+      const animatedText = document.getElementById("animatedText");
+      animatedText.innerHTML = "";
+
+      words.forEach((word, i) => {
+        const span = document.createElement("span");
+        span.className = "word";
+        span.textContent = word;
+        animatedText.appendChild(span);
+
+        setTimeout(() => {
+          span.classList.add("show");
+        }, i * 200);
+      });
+    }
+
+    function playMusic() {
+      const music = document.getElementById("bgMusic");
+      music.play();
+    }
+  </script>
+</body>
+</html>
